@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS user CASCADE;
+DROP TABLE IF EXISTS users;
 
 CREATE TABLE users (
     id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
@@ -6,4 +6,4 @@ CREATE TABLE users (
     password_hash TEXT NOT NULL
 );
 
-INSERT INTO users (id, email, password_hash) VALUES (1, 'blick@blorck.com', 'password')
+INSERT INTO users ( email, password_hash) VALUES ('blick@blorck.com', 'password')
