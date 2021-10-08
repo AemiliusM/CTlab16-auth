@@ -23,7 +23,7 @@ describe('CTlab16auth routes', () => {
     });
   });
 
-  it('should give a 400 if user exists', async () => {
+  it('should give a 401 if user exists', async () => {
     await UserService.signUp({ email: 'mili@fam.com', password: 'password' }); 
     const res = await request(app)
       .post('/api/auth/signup').send({ email: 'mili@fam.com', password: 'password' });
@@ -42,6 +42,15 @@ describe('CTlab16auth routes', () => {
       id: expect.any(String),
       email: 'mili@fam.com'
     });
+  });
+
+  it('should give a 400 if credentials are incorrect', async () => {
+    await UserService.signUp({ email: 'mili@fam.com', password: 'password' });
+
+    const res = await request(app)
+      .post('/api/auth/login')
+      .send({ email: 'milli@fam.com', password: 'password' });
+    expect(res.status).toEqual(401);
   });
 
 });
