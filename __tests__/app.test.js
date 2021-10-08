@@ -52,5 +52,12 @@ describe('CTlab16auth routes', () => {
       .send({ email: 'milli@fam.com', password: 'password' });
     expect(res.status).toEqual(400);
   });
+  // GET route to /me that responds with the currently logged in User. (2 points)
+  // DO NOT RETURN THE USER'S passwordHash! If you do... MINUS 5 POINTS!!!! (Seriously)
+  // it('should return currently loggin in user', async () => {
+  //   const res = await request(app)
+  //     .get('/api/auth/me');
+  //   expect(res.body).toEqual({ id: expect.any(String), email: 'mili@fam.com' });
+  // });
 
 });
