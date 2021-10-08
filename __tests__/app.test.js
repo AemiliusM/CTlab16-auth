@@ -58,9 +58,9 @@ describe('CTlab16auth routes', () => {
     await UserService.signUp({ email: 'mili@fam.com', password: 'password' });
     const agent = request.agent(app);
     await agent.post('/api/auth/login')
-      .send({ email: 'milli@fam.com', password: 'password' });
-      
-    const res = await request(app)
+      .send({ email: 'mili@fam.com', password: 'password' });
+
+    const res = await agent
       .get('/api/auth/me');
     expect(res.body).toEqual({ id: expect.any(String), email: 'mili@fam.com' });
   });
