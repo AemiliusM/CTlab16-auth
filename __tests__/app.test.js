@@ -18,8 +18,17 @@ describe('CTlab16auth routes', () => {
       .post('/api/auth/signup').send({ email: 'mili@fam.com', password: 'password' });
 
     expect(res.body).toEqual({
-      id: expect.any(String)
+      id: expect.any(String),
+      email: 'mili@fam.com'
     });
+  });
+
+  it('should give a 400 if user exists', async () => {
+    await UserService.signUp({ email: 'mili@fam.com', password: 'password' }); 
+    const res = await request(app)
+      .post('/api/auth/signup').send({ email: 'mili@fam.com', password: 'password' });
+
+    expect(res.status).toEqual(400);
   });
 
   it('logs in a user with a POST', async () => {
