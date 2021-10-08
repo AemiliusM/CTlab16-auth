@@ -28,7 +28,7 @@ describe('CTlab16auth routes', () => {
     const res = await request(app)
       .post('/api/auth/signup').send({ email: 'mili@fam.com', password: 'password' });
 
-    expect(res.status).toEqual(400);
+    expect(res.status).toEqual(401);
   });
 
   it('logs in a user with a POST', async () => {
