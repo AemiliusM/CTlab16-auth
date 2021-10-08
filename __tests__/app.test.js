@@ -50,7 +50,7 @@ describe('CTlab16auth routes', () => {
     const res = await request(app)
       .post('/api/auth/login')
       .send({ email: 'milli@fam.com', password: 'password' });
-    expect(res.status).toEqual(401);
+    expect(res.status).toEqual(400);
   });
 
 });
