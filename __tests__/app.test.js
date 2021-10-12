@@ -45,7 +45,8 @@ describe('CTlab16auth routes', () => {
     
     expect(res.body).toEqual({
       id: expect.any(String),
-      email: 'mili@fam.com'
+      email: 'mili@fam.com',
+      roleTitle: 'USER'
     });
   });
 
@@ -57,8 +58,7 @@ describe('CTlab16auth routes', () => {
       .send({ email: 'milli@fam.com', password: 'password' });
     expect(res.status).toEqual(400);
   });
-  // GET route to /me that responds with the currently logged in User. (2 points)
-  // DO NOT RETURN THE USER'S passwordHash! If you do... MINUS 5 POINTS!!!! (Seriously)
+
   it('should return currently loggin in user', async () => {
     await UserService.signUp(human);
     const agent = request.agent(app);
@@ -67,7 +67,7 @@ describe('CTlab16auth routes', () => {
 
     const res = await agent
       .get('/api/auth/me');
-    expect(res.body).toEqual({ id: expect.any(String), email: 'mili@fam.com' });
+    expect(res.body).toEqual({ id: expect.any(String), email: 'mili@fam.com', roleTitle: 'USER', iat: expect.any(Number), exp: expect.any(Number) });
   });
 
 });
