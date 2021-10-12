@@ -9,13 +9,18 @@ describe('CTlab16auth routes', () => {
     return setup(pool);
   });
 
+  const human = { 
+    email: 'mili@fam.com', 
+    password: 'password', 
+    roleTitle: 'USER'  };
+
   afterAll(() => {
     pool.end();
   });
 
-  it('signs up a user via POST', async () => {
+  it('signs up a user with proper roll via POST', async () => {
     const res = await request(app)
-      .post('/api/auth/signup').send({ email: 'mili@fam.com', password: 'password' });
+      .post('/api/auth/signup').send(human);
 
     expect(res.body).toEqual({
       id: expect.any(String),
@@ -23,46 +28,51 @@ describe('CTlab16auth routes', () => {
     });
   });
 
+  // it('should give a 401 if the request does not have a valid jwt token', async () => {
+  //   await UserService.signUp(invalidHuman);
+  //   const res = await request(app)
+  // });
+
   it('should give a 401 if user exists', async () => {
-    await UserService.signUp({ email: 'mili@fam.com', password: 'password' }); 
+    await UserService.signUp(human); 
     const res = await request(app)
-      .post('/api/auth/signup').send({ email: 'mili@fam.com', password: 'password' });
+      .post('/api/auth/signup').send(human);
 
     expect(res.status).toEqual(401);
   });
 
   it('logs in a user with a POST', async () => {
-    await UserService.signUp({ email: 'mili@fam.com', password: 'password' });
+    await UserService.signUp(human);
 
     const res = await request(app)
       .post('/api/auth/login')
-      .send({ email: 'mili@fam.com', password: 'password' });
+      .send(human);
     
     expect(res.body).toEqual({
       id: expect.any(String),
-      email: 'mili@fam.com'
+      email: 'mili@fam.com',
+      roleTitle: 'USER'
     });
   });
 
   it('should give a 400 if credentials are incorrect', async () => {
-    await UserService.signUp({ email: 'mili@fam.com', password: 'password' });
+    await UserService.signUp(human);
 
     const res = await request(app)
       .post('/api/auth/login')
       .send({ email: 'milli@fam.com', password: 'password' });
     expect(res.status).toEqual(400);
   });
-  // GET route to /me that responds with the currently logged in User. (2 points)
-  // DO NOT RETURN THE USER'S passwordHash! If you do... MINUS 5 POINTS!!!! (Seriously)
+
   it('should return currently loggin in user', async () => {
-    await UserService.signUp({ email: 'mili@fam.com', password: 'password' });
+    await UserService.signUp(human);
     const agent = request.agent(app);
     await agent.post('/api/auth/login')
-      .send({ email: 'mili@fam.com', password: 'password' });
+      .send(human);
 
     const res = await agent
       .get('/api/auth/me');
-    expect(res.body).toEqual({ id: expect.any(String), email: 'mili@fam.com' });
+    expect(res.body).toEqual({ id: expect.any(String), email: 'mili@fam.com', roleTitle: 'USER', iat: expect.any(Number), exp: expect.any(Number) });
   });
 
 });
