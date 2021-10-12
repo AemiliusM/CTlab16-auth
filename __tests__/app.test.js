@@ -28,6 +28,11 @@ describe('CTlab16auth routes', () => {
     });
   });
 
+  // it('should give a 401 if the request does not have a valid jwt token', async () => {
+  //   await UserService.signUp(invalidHuman);
+  //   const res = await request(app)
+  // });
+
   it('should give a 401 if user exists', async () => {
     await UserService.signUp(human); 
     const res = await request(app)
